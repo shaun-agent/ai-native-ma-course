@@ -1,0 +1,1500 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Native MA Whiteboard Course</title>
+  <style>
+:root {
+  color-scheme: light;
+  --ink: #172033;
+  --muted: #5f6b7a;
+  --line: #d8dee8;
+  --soft: #f5f7fb;
+  --soft-2: #eef3f8;
+  --accent: #1463ff;
+  --accent-soft: #eaf1ff;
+  --warn: #fff5d6;
+  --code: #0f172a;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background: #f1f4f8;
+  font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", Arial, sans-serif;
+  letter-spacing: 0;
+}
+.layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+  gap: 28px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 28px;
+}
+.toc {
+  position: sticky;
+  top: 20px;
+  align-self: start;
+  max-height: calc(100vh - 40px);
+  overflow: auto;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: white;
+}
+.toc-title {
+  margin: 0 0 10px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.toc a {
+  display: block;
+  padding: 5px 0;
+  color: #34445a;
+  text-decoration: none;
+  font-size: 13px;
+  line-height: 1.35;
+}
+.toc a:hover { color: var(--accent); }
+.toc-l1 { font-weight: 750; margin-top: 10px; }
+.toc-l2 { padding-left: 12px !important; border-left: 2px solid var(--soft-2); }
+main {
+  min-width: 0;
+  padding: 44px 56px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: white;
+  box-shadow: 0 20px 60px rgba(19, 33, 61, 0.08);
+}
+.doc-meta {
+  margin: -10px 0 26px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--soft);
+  color: var(--muted);
+  font-size: 13px;
+}
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.25;
+  letter-spacing: 0;
+  page-break-after: avoid;
+}
+h1 {
+  margin: 44px 0 20px;
+  padding-bottom: 12px;
+  border-bottom: 3px solid var(--ink);
+  font-size: 34px;
+}
+h1:first-child { margin-top: 0; }
+h2 {
+  margin: 38px 0 14px;
+  padding: 12px 14px;
+  border-left: 6px solid var(--accent);
+  border-radius: 6px;
+  background: var(--accent-soft);
+  font-size: 24px;
+}
+h3 {
+  margin: 26px 0 10px;
+  color: #223047;
+  font-size: 18px;
+}
+h4 { margin: 22px 0 8px; font-size: 16px; }
+.anchor {
+  float: right;
+  margin-left: 8px;
+  color: #9aa7b7;
+  text-decoration: none;
+  font-size: 0.8em;
+}
+p { margin: 10px 0; }
+ul, ol { margin: 8px 0 16px 24px; padding: 0; }
+li { margin: 4px 0; }
+blockquote {
+  margin: 14px 0;
+  padding: 14px 16px;
+  border-left: 5px solid #f2b705;
+  border-radius: 6px;
+  background: var(--warn);
+  color: #2d2a1e;
+  font-size: 17px;
+  font-weight: 650;
+}
+pre {
+  overflow-x: auto;
+  margin: 14px 0 18px;
+  padding: 14px 16px;
+  border-radius: 8px;
+  background: var(--code);
+  color: #e5edf8;
+  font-size: 14px;
+  line-height: 1.45;
+}
+code {
+  border-radius: 4px;
+  background: #edf2f7;
+  padding: 0.12em 0.32em;
+  color: #10243e;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+}
+pre code { background: transparent; color: inherit; padding: 0; }
+hr {
+  margin: 28px 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+.table-wrap {
+  overflow-x: auto;
+  margin: 14px 0 22px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+th, td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+  text-align: left;
+}
+th {
+  background: #eef3f8;
+  color: #263246;
+  font-weight: 750;
+}
+tr:nth-child(even) td { background: #fafbfd; }
+.page-break {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 34px 0;
+  color: #8a96a8;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+.page-break::before,
+.page-break::after {
+  content: "";
+  flex: 1;
+  border-top: 1px dashed #b8c2d1;
+}
+@media (max-width: 960px) {
+  .layout { display: block; padding: 14px; }
+  .toc { position: static; max-height: none; margin-bottom: 16px; }
+  main { padding: 26px 22px; }
+  h1 { font-size: 28px; }
+  h2 { font-size: 21px; }
+}
+@media print {
+  @page { margin: 15mm 14mm; }
+  body { background: white; font-size: 11pt; line-height: 1.45; }
+  .layout { display: block; max-width: none; padding: 0; }
+  .toc { display: none; }
+  main { border: 0; border-radius: 0; box-shadow: none; padding: 0; }
+  .doc-meta { border-color: #bbb; background: #f7f7f7; }
+  h1 { font-size: 22pt; margin-top: 0.8cm; }
+  h2 { font-size: 16pt; break-after: avoid; }
+  h3 { font-size: 13pt; break-after: avoid; }
+  pre, blockquote, table { break-inside: avoid; }
+  a { color: inherit; text-decoration: none; }
+  .anchor { display: none; }
+  .page-break {
+    display: block;
+    break-after: page;
+    page-break-after: always;
+    height: 0;
+    margin: 0;
+    overflow: hidden;
+  }
+  .page-break span { display: none; }
+}
+</style>
+</head>
+<body>
+  <div class="layout">
+    <nav class="toc" aria-label="Table of contents">
+      <p class="toc-title">Course Map</p>
+      <a class="toc-l1" href="#ai-native-ma-whiteboard-course">AI Native MA Whiteboard Course</a>
+<a class="toc-l2" href="#one-page-course-map">One-Page Course Map</a>
+<a class="toc-l2" href="#90-minute-run-of-show">90-Minute Run Of Show</a>
+<a class="toc-l1" href="#part-1-core-concepts">Part 1 - Core Concepts</a>
+<a class="toc-l2" href="#1-opening-frame-what-is-an-ai-builder">1. Opening Frame: What Is An AI Builder?</a>
+<a class="toc-l2" href="#2-context-engineering-separation">2. Context / Engineering Separation</a>
+<a class="toc-l2" href="#3-formal-symbolic-domains">3. Formal Symbolic Domains</a>
+<a class="toc-l2" href="#4-ai-capability-border">4. AI Capability Border</a>
+<a class="toc-l2" href="#5-llm-harness-tool-calling-agent">5. LLM, Harness, Tool Calling, Agent</a>
+<a class="toc-l1" href="#part-2-work-as-ai-builder-disruptor">Part 2 - Work As AI Builder / Disruptor</a>
+<a class="toc-l2" href="#6-five-knowledge-domains-of-an-ai-builder">6. Five Knowledge Domains Of An AI Builder</a>
+<a class="toc-l2" href="#7-culture-of-ai-transformation">7. Culture Of AI Transformation</a>
+<a class="toc-l2" href="#8-automation-flywheel-theory-of-constraints">8. Automation Flywheel / Theory Of Constraints</a>
+<a class="toc-l2" href="#9-product-intent-and-critical-taste">9. Product Intent And Critical Taste</a>
+<a class="toc-l2" href="#10-model-choice-and-token-economics">10. Model Choice And Token Economics</a>
+<a class="toc-l2" href="#11-auditable-reasoning">11. Auditable Reasoning</a>
+<a class="toc-l2" href="#12-poc-vs-product-shape">12. PoC Vs Product Shape</a>
+<a class="toc-l1" href="#workshop-guide">Workshop Guide</a>
+<a class="toc-l2" href="#workshop-premise">Workshop Premise</a>
+<a class="toc-l2" href="#required-whiteboard-output">Required Whiteboard Output</a>
+<a class="toc-l2" href="#final-statement-template">Final Statement Template</a>
+<a class="toc-l2" href="#workshop-case-options">Workshop Case Options</a>
+<a class="toc-l1" href="#instructor-prep-current-knowledge-gaps">Instructor Prep - Current Knowledge Gaps</a>
+<a class="toc-l2" href="#gap-1-what-ci-cd-is">Gap 1: What CI/CD Is</a>
+<a class="toc-l2" href="#gap-2-relationship-between-ci-cd-and-github-actions">Gap 2: Relationship Between CI/CD And GitHub Actions</a>
+<a class="toc-l2" href="#gap-3-how-to-perform-code-reviews-and-tests-in-a-web-environment">Gap 3: How To Perform Code Reviews And Tests In A Web Environment</a>
+<a class="toc-l1" href="#closing-page">Closing Page</a>
+<a class="toc-l2" href="#final-board-sentence">Final Board Sentence</a>
+<a class="toc-l2" href="#repeatable-method">Repeatable Method</a>
+<a class="toc-l2" href="#do-not-forget">Do Not Forget</a>
+    </nav>
+    <main>
+      <div class="doc-meta">
+        Public handout for a no-slide, pure-whiteboard AI-native builder workshop.
+        Use browser print for a clean paper copy.
+      </div>
+      <h1 id="ai-native-ma-whiteboard-course"><a class="anchor" href="#ai-native-ma-whiteboard-course">#</a>AI Native MA Whiteboard Course</h1>
+<p>Purpose: lecturing guide for a no-slide, pure-whiteboard 90-minute session.</p>
+<p>This handout is designed to support a live whiteboard lecture and workshop, not replace the live discussion.</p>
+<hr>
+<h2 id="one-page-course-map"><a class="anchor" href="#one-page-course-map">#</a>One-Page Course Map</h2>
+<h3 id="north-star"><a class="anchor" href="#north-star">#</a>North Star</h3>
+<blockquote>AI Builders walk the border of AI capability, find missing context, and turn ambiguity into useful systems.</blockquote>
+<h3 id="top-level-topics"><a class="anchor" href="#top-level-topics">#</a>Top-Level Topics</h3>
+<ol>
+<li>AI Builder identity: what role are we training?</li>
+<li>Context / engineering separation: why context comes before building.</li>
+<li>Formal symbolic domains: why AI is strong in text, math, code, specs, logs.</li>
+<li>AI capability border: what AI can do, assist, or should not decide.</li>
+<li>LLM basics / deterministic vs stochastic output / harness / tool-calling / agent: what the system is made of, and why harness design expands capability beyond raw model scaling.</li>
+<li>Five AI Builder knowledge domains: what domains builders eventually touch.</li>
+<li>Culture and bottleneck migration: how AI transformation moves through an org.</li>
+<li>Product intent and critical taste: how to judge what should exist.</li>
+<li>Model choice and token economics: how to choose the right system, not the fanciest model.</li>
+<li>Auditability and PoC shape: how to make work trustworthy and testable.</li>
+<li>Workshop: messy reality -&gt; product intent -&gt; first PoC.</li>
+</ol>
+<h3 id="course-spine"><a class="anchor" href="#course-spine">#</a>Course Spine</h3>
+<pre><code class="language-text">Context -&gt; Border -&gt; Agent Stack -&gt; Knowledge Domains -&gt; Culture -&gt; Bottleneck -&gt; Intent -&gt; Model Choice -&gt; Audit -&gt; PoC</code></pre>
+<h3 id="what-students-should-leave-with"><a class="anchor" href="#what-students-should-leave-with">#</a>What Students Should Leave With</h3>
+<ul>
+<li>A way to separate context from engineering.</li>
+<li>A way to draw the AI capability border.</li>
+<li>A way to identify the harness layers around an LLM.</li>
+<li>A way to judge whether an intent is good.</li>
+<li>A way to break messy work into AI tasks.</li>
+<li>A way to choose models based on risk and verification, not hype.</li>
+<li>A way to move from ambiguity to PoC/product shape.</li>
+</ul>
+<h3 id="whiteboard-must-have-drawings"><a class="anchor" href="#whiteboard-must-have-drawings">#</a>Whiteboard Must-Have Drawings</h3>
+<ol>
+<li>Context / Engineering split</li>
+<li>Formal symbolic domain: symbols, rules, feedback</li>
+<li>AI capability border: AI can do / AI assists / human owns</li>
+<li>Deterministic vs stochastic output</li>
+<li>LLM / harness / tool / agent stack</li>
+<li>Four primitive tools: read, write, edit, delete</li>
+<li>Five knowledge domains pentagon</li>
+<li>Culture loop: fast trial, mistake, correction, trust</li>
+<li>Bottleneck migration chain</li>
+<li>Product intent funnel</li>
+<li>Model choice matrix</li>
+<li>Audit ladder</li>
+<li>PoC vs product table</li>
+</ol>
+<hr>
+<div class="page-break"><span>page break</span></div>
+<h2 id="90-minute-run-of-show"><a class="anchor" href="#90-minute-run-of-show">#</a>90-Minute Run Of Show</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Time</th><th>Topic</th><th>Output On Whiteboard</th></tr></thead>
+<tbody>
+<tr><td>0-5</td><td>Opening frame</td><td>AI Builder identity</td></tr>
+<tr><td>5-15</td><td>Context / engineering split</td><td>Two-column map</td></tr>
+<tr><td>15-25</td><td>Formal symbolic domains</td><td>Symbols -&gt; rules -&gt; feedback</td></tr>
+<tr><td>25-35</td><td>AI capability border</td><td>Border map</td></tr>
+<tr><td>35-45</td><td>LLM basics / harness / tool calling / agent</td><td>Agent stack</td></tr>
+<tr><td>45-52</td><td>Five AI Builder knowledge domains</td><td>Pentagon</td></tr>
+<tr><td>52-60</td><td>Culture of AI transformation</td><td>Trust loop</td></tr>
+<tr><td>60-68</td><td>Automation flywheel</td><td>Bottleneck migration</td></tr>
+<tr><td>68-76</td><td>Product intent and disruptor mindset</td><td>Intent funnel</td></tr>
+<tr><td>76-83</td><td>Model choice thought experiment</td><td>Model matrix</td></tr>
+<tr><td>83-90</td><td>Workshop setup / debrief frame</td><td>PoC statement template</td></tr>
+</tbody></table></div>
+<p>If time is tight, compress:</p>
+<pre><code class="language-text">Context -&gt; Border -&gt; Intent -&gt; Model Choice -&gt; Workshop</code></pre>
+<hr>
+<div class="page-break"><span>page break</span></div>
+<h1 id="part-1-core-concepts"><a class="anchor" href="#part-1-core-concepts">#</a>Part 1 - Core Concepts</h1>
+<h2 id="1-opening-frame-what-is-an-ai-builder"><a class="anchor" href="#1-opening-frame-what-is-an-ai-builder">#</a>1. Opening Frame: What Is An AI Builder?</h2>
+<h3 id="key-line"><a class="anchor" href="#key-line">#</a>Key Line</h3>
+<blockquote>An AI Builder is not just a prompt user or coder. An AI Builder turns unclear reality into a trustworthy AI-enabled system.</blockquote>
+<h3 id="draw"><a class="anchor" href="#draw">#</a>Draw</h3>
+<pre><code class="language-text">Messy Reality -&gt; AI Builder -&gt; AI System -&gt; Useful Workflow</code></pre>
+<p>Under AI Builder, write:</p>
+<pre><code class="language-text">context seeker
+border mapper
+workflow engineer
+delivery owner</code></pre>
+<h3 id="explain"><a class="anchor" href="#explain">#</a>Explain</h3>
+<ul>
+<li>The AI Builder stands between ambiguity and execution.</li>
+<li>Their first job is not &quot;use AI.&quot;</li>
+<li>Their first job is to discover what needs to be true for AI to be useful.</li>
+</ul>
+<h3 id="ask-ma-to-draw"><a class="anchor" href="#ask-ma-to-draw">#</a>Ask MA To Draw</h3>
+<p>Draw one messy problem. What has to pass through the AI Builder before AI can help?</p>
+<h3 id="source-anchors"><a class="anchor" href="#source-anchors">#</a>Source Anchors</h3>
+<ul>
+<li>Day 13: nontraditional AI transition</li>
+<li>Day 19: product core intent</li>
+<li>Day 36: super beginner / FDE-like generalist</li>
+</ul>
+<hr>
+<h2 id="2-context-engineering-separation"><a class="anchor" href="#2-context-engineering-separation">#</a>2. Context / Engineering Separation</h2>
+<h3 id="key-line-2"><a class="anchor" href="#key-line-2">#</a>Key Line</h3>
+<blockquote>You need context to engineer. Always.</blockquote>
+<h3 id="draw-2"><a class="anchor" href="#draw-2">#</a>Draw</h3>
+<pre><code class="language-text">Context                         Engineering
+-------                         -----------
+domain                          model
+user                            tool
+pain                            prompt
+workflow                        context package
+data                            task spec
+risk                            harness
+incentives                      test
+trust                           integration
+constraints                     deployment</code></pre>
+<h3 id="explain-2"><a class="anchor" href="#explain-2">#</a>Explain</h3>
+<ul>
+<li>Context is not background information.</li>
+<li>Context is the material you engineer with.</li>
+<li>Engineering without context creates demos.</li>
+<li>Context converted into engineering creates products.</li>
+</ul>
+<h3 id="highlight"><a class="anchor" href="#highlight">#</a>Highlight</h3>
+<blockquote>Bad AI work asks: &quot;What can AI do?&quot;<br>Good AI work asks: &quot;What real context must be represented so AI can do useful work?&quot;</blockquote>
+<h3 id="ask-ma"><a class="anchor" href="#ask-ma">#</a>Ask MA</h3>
+<p>Pick a project. Which side is weaker right now: context or engineering?</p>
+<h3 id="source-anchors-2"><a class="anchor" href="#source-anchors-2">#</a>Source Anchors</h3>
+<ul>
+<li>Day 1: client service and avoiding jargon</li>
+<li>Day 11: deployment confusion</li>
+<li>Day 23: hospital context becoming engineering value</li>
+</ul>
+<hr>
+<h2 id="3-formal-symbolic-domains"><a class="anchor" href="#3-formal-symbolic-domains">#</a>3. Formal Symbolic Domains</h2>
+<h3 id="key-line-3"><a class="anchor" href="#key-line-3">#</a>Key Line</h3>
+<blockquote>AI is strongest where reality has already been compressed into symbols, rules, tools, and feedback.</blockquote>
+<h3 id="draw-3"><a class="anchor" href="#draw-3">#</a>Draw</h3>
+<pre><code class="language-text">symbols -&gt; rules -&gt; tools -&gt; feedback</code></pre>
+<h3 id="teaching-terms"><a class="anchor" href="#teaching-terms">#</a>Teaching Terms</h3>
+<p><strong>Formal symbolic domain</strong></p>
+<blockquote>A domain whose important objects, rules, moves, and validation criteria can be represented in symbols, text, notation, or code.</blockquote>
+<p><strong>Compact formal system</strong></p>
+<blockquote>Small rules, huge world.</blockquote>
+<h3 id="examples"><a class="anchor" href="#examples">#</a>Examples</h3>
+<ul>
+<li>Code: files, tests, compiler, git diff.</li>
+<li>Math: notation, proof steps, symbolic constraints.</li>
+<li>APIs: schema, endpoint, request, response.</li>
+<li>Labeling taxonomy: categories, examples, edge cases, review rules.</li>
+<li>Meeting notes: transcript, decisions, action items, owners.</li>
+</ul>
+<h3 id="explain-3"><a class="anchor" href="#explain-3">#</a>Explain</h3>
+<ul>
+<li>Text, math, theorem-like reasoning, and coding are now largely inside the practical AI border when the task is well specified and verification exists.</li>
+<li>The important phrase is: <strong>when verification exists</strong>.</li>
+</ul>
+<h3 id="avoid"><a class="anchor" href="#avoid">#</a>Avoid</h3>
+<p>Do not call this &quot;ideal form&quot; as the main teaching term. Use:</p>
+<pre><code class="language-text">formal symbolic domain
+compact formal system
+formalizable domain</code></pre>
+<h3 id="source-anchors-3"><a class="anchor" href="#source-anchors-3">#</a>Source Anchors</h3>
+<ul>
+<li>Day 4: prompt / context / harness / human harness</li>
+<li>Day 6: task granularity</li>
+<li>Day 24: evidence layers</li>
+</ul>
+<hr>
+<h2 id="4-ai-capability-border"><a class="anchor" href="#4-ai-capability-border">#</a>4. AI Capability Border</h2>
+<h3 id="key-line-4"><a class="anchor" href="#key-line-4">#</a>Key Line</h3>
+<blockquote>The border is not where the model stops. The border is where the whole system stops being trustworthy.</blockquote>
+<h3 id="draw-4"><a class="anchor" href="#draw-4">#</a>Draw</h3>
+<pre><code class="language-text">AI can do reliably | AI can assist with review | Human must own / do not automate</code></pre>
+<p>Then add this under the border:</p>
+<pre><code class="language-text">context + model + tools + verification + permission + review</code></pre>
+<h3 id="explain-4"><a class="anchor" href="#explain-4">#</a>Explain</h3>
+<p>The border changes with:</p>
+<ul>
+<li>better models</li>
+<li>better context</li>
+<li>better tools</li>
+<li>better verification</li>
+<li>better permissions</li>
+<li>better human review</li>
+</ul>
+<h3 id="border-evolution"><a class="anchor" href="#border-evolution">#</a>Border Evolution</h3>
+<pre><code class="language-text">Formal symbolic domain
+    -&gt; Operational process model
+    -&gt; Physical twin
+    -&gt; Mental model twin</code></pre>
+<p>Plain-language version:</p>
+<pre><code class="language-text">Text world -&gt; Work world -&gt; Physical world -&gt; Inner world</code></pre>
+<h3 id="define-the-border-evolution"><a class="anchor" href="#define-the-border-evolution">#</a>Define The Border Evolution</h3>
+<p><strong>Formal symbolic domain</strong></p>
+<p>Reality is already written down as text, code, math, schemas, logs, documents.</p>
+<p><strong>Operational process model</strong></p>
+<p>A symbolic representation of how work moves through people, systems, decisions, exceptions, and tools.</p>
+<p><strong>Physical twin</strong></p>
+<p>A manipulable model of physical reality that lets AI predict, plan, or interact with embodied environments.</p>
+<p><strong>Mental model twin</strong></p>
+<p>An externalized model of a person&#x27;s preferences, memories, reasoning habits, attention patterns, and decision traces. Not consciousness.</p>
+<h3 id="ask-ma-2"><a class="anchor" href="#ask-ma-2">#</a>Ask MA</h3>
+<p>For one task, mark:</p>
+<ul>
+<li>safe for AI</li>
+<li>AI drafts, human reviews</li>
+<li>human owns</li>
+<li>do not automate yet</li>
+</ul>
+<h3 id="source-anchors-4"><a class="anchor" href="#source-anchors-4">#</a>Source Anchors</h3>
+<ul>
+<li>Day 17: what to do when AI starts making mistakes</li>
+<li>Day 19: AI cannot decide whether a PR should exist</li>
+<li>Day 24: wrong question angle can make multi-agent review fail</li>
+</ul>
+<hr>
+<h2 id="5-llm-harness-tool-calling-agent"><a class="anchor" href="#5-llm-harness-tool-calling-agent">#</a>5. LLM, Harness, Tool Calling, Agent</h2>
+<h3 id="key-line-5"><a class="anchor" href="#key-line-5">#</a>Key Line</h3>
+<blockquote>An LLM is a stochastic token prediction system trained at scale. It is powerful because many human tasks can be represented as text, code, symbols, and examples. Everything that supports or changes the behavior of a raw LLM is a harness: context, tools, memory, permissions, feedback, guardrails, process design, and stop conditions. An agent is an LLM operating inside a harness toward a goal.</blockquote>
+<h3 id="why-this-section-matters"><a class="anchor" href="#why-this-section-matters">#</a>Why This Section Matters</h3>
+<p>We often say:</p>
+<pre><code class="language-text">Agent = LLM + Harness</code></pre>
+<p>This is elegant, but needs clarification:</p>
+<ul>
+<li>Many current LLM products already include a built-in harness.</li>
+<li>ChatGPT, Claude, Gemini, Cursor, Codex, and similar systems are not &quot;raw models.&quot;</li>
+<li>They usually include tool access, memory/context windows, file handling, runtime permissions, UI constraints, safety policies, and hidden orchestration.</li>
+<li>So when we build agents, we are often building <strong>another harness around an already-harnessed model</strong>.</li>
+</ul>
+<p>Better teaching sentence:</p>
+<blockquote>Agent = model capability + context + tools + control loop + permissions + verification.</blockquote>
+<h3 id="deterministic-vs-stochastic-output"><a class="anchor" href="#deterministic-vs-stochastic-output">#</a>Deterministic Vs Stochastic Output</h3>
+<p>Start with this contrast before defining LLM.</p>
+<pre><code class="language-text">Deterministic system:
+same input + same state + same rules = same output
+
+Stochastic system:
+same input can produce different outputs because the system samples from probabilities</code></pre>
+<p>Concrete deterministic examples:</p>
+<ul>
+<li>Calculator: <code>123 + 456 = 579</code> every time.</li>
+<li>SQL query: same query + same database state = same result.</li>
+<li>Sorting function: same list + same sort rule = same order.</li>
+<li>Rule engine: <code>if invoice &gt; 100000, require approval</code> always triggers under the same condition.</li>
+<li>Unit test: same code + same test environment should pass or fail the same way.</li>
+</ul>
+<p>Concrete stochastic examples:</p>
+<ul>
+<li>LLM writing: same prompt can produce three different summaries.</li>
+<li>Image generation: same prompt can create different images.</li>
+<li>Recommender system: ranking may shift as sampling, user behavior, or model updates change.</li>
+<li>Ad bidding / ranking: output can vary because the system estimates probabilities under changing context.</li>
+</ul>
+<p>Key teaching point:</p>
+<blockquote>Deterministic systems are easier to verify. Stochastic systems are more flexible, but need harness, tests, review, and audit.</blockquote>
+<p>Important nuance:</p>
+<ul>
+<li>Setting temperature near zero can make an LLM more repeatable.</li>
+<li>It does not turn the LLM into a normal deterministic rules engine.</li>
+<li>Even when output is repeatable, the model is still producing tokens from learned probability structure, not executing a human-readable rulebook.</li>
+</ul>
+<h3 id="foundation-note-are-ml-models-deterministic"><a class="anchor" href="#foundation-note-are-ml-models-deterministic">#</a>Foundation Note: Are ML Models Deterministic?</h3>
+<p>Short answer:</p>
+<blockquote>Many common ML models are deterministic at inference time, but ML as a whole is not always deterministic. LLMs are a subtype of ML, and many LLM products expose stochastic generation as a core behavior.</blockquote>
+<p>Separate three layers:</p>
+<pre><code class="language-text">Training:
+often stochastic
+
+Model inference:
+often deterministic if weights + input + runtime + decoding rule are fixed
+
+Product/system output:
+may still be stochastic because of sampling, retrieval, tools, model routing, or changing context</code></pre>
+<p>Concrete examples:</p>
+<ul>
+<li>Logistic regression classifier: once trained, same features usually produce the same probability.</li>
+<li>Decision tree / random forest: once trained, same input usually produces the same label or score.</li>
+<li>Neural network classifier: with dropout off and fixed weights, same image usually produces the same class probabilities.</li>
+<li>K-means: training may vary because random initialization can choose different clusters; after centroids are fixed, assignment is deterministic.</li>
+<li>Recommender system: the scoring model may be deterministic, but the product ranking can change because inventory, user behavior, exploration, and business rules change.</li>
+<li>LLM: with greedy decoding or very low temperature, output can be more repeatable; with sampling, the same prompt can produce different valid continuations.</li>
+</ul>
+<p>Whiteboard correction:</p>
+<pre><code class="language-text">ML model != always stochastic
+ML system != always deterministic
+LLM = ML subtype with generative token prediction</code></pre>
+<p>Use this wording:</p>
+<blockquote>The model can be deterministic as a mathematical function, while the AI product can still be stochastic as a system.</blockquote>
+<p>Why this matters for AI Builders:</p>
+<ul>
+<li>If output must be exact, use deterministic rules, calculators, validators, tests, or database queries.</li>
+<li>If output can be drafted, interpreted, ranked, summarized, or explored, stochastic generation may be useful.</li>
+<li>Production AI often combines both: stochastic model output plus deterministic checks.</li>
+</ul>
+<h3 id="what-defines-an-llm"><a class="anchor" href="#what-defines-an-llm">#</a>What Defines An LLM</h3>
+<p>LLM means <strong>Large Language Model</strong>.</p>
+<p>Definition for the whiteboard:</p>
+<blockquote>A large neural network trained on massive text/code/token sequences to predict likely next tokens, then used through context to perform many language-representable tasks.</blockquote>
+<p>What defines it:</p>
+<ul>
+<li>It operates on tokens, not directly on &quot;truth.&quot;</li>
+<li>It learns statistical structure from huge corpora.</li>
+<li>It generates one token after another.</li>
+<li>It can use context at inference time: instructions, examples, documents, prior messages, tool results.</li>
+<li>It is general-purpose because many tasks can be represented as language, code, schemas, or symbols.</li>
+</ul>
+<p>What does <strong>not</strong> define it:</p>
+<ul>
+<li>It is not a database.</li>
+<li>It is not a search engine by itself.</li>
+<li>It is not a calculator by itself.</li>
+<li>It is not a rules engine.</li>
+<li>It is not a workflow engine.</li>
+<li>It is not a truth oracle.</li>
+<li>It is not the owner of product intent.</li>
+</ul>
+<p>Concrete example:</p>
+<pre><code class="language-text">Question: &quot;What is our refund policy?&quot;
+
+Raw LLM:
+predicts a plausible answer from learned patterns and prompt context
+
+LLM + retrieval harness:
+reads the actual policy doc, quotes the relevant section, drafts an answer
+
+LLM + workflow harness:
+checks order status, applies refund rules, asks for approval if risk is high</code></pre>
+<p>The same model becomes more reliable when the harness supplies source material, tools, rules, and verification.</p>
+<h3 id="how-llms-differ-from-other-ml-models"><a class="anchor" href="#how-llms-differ-from-other-ml-models">#</a>How LLMs Differ From Other ML Models</h3>
+<p>Use this table if the class needs the basics.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Model Type</th><th>Typical Input</th><th>Typical Output</th><th>Concrete Example</th><th>Why It Differs From LLM</th></tr></thead>
+<tbody>
+<tr><td>Classifier</td><td>Features / image / text</td><td>Fixed label or probability</td><td>&quot;Is this transaction fraud? yes/no/probability&quot;</td><td>Usually chooses from predefined labels.</td></tr>
+<tr><td>Regression model</td><td>Features</td><td>Number</td><td>&quot;Forecast next month&#x27;s revenue&quot;</td><td>Produces a numeric estimate, not open-ended language.</td></tr>
+<tr><td>Recommender / ranker</td><td>User + items + context</td><td>Ranked list</td><td>&quot;Which article should this user see next?&quot;</td><td>Optimizes ranking or matching, not general reasoning dialogue.</td></tr>
+<tr><td>Vision model</td><td>Image / video</td><td>Label, detection, embedding, or generated image</td><td>&quot;Find defects in this product photo&quot;</td><td>Native input is visual, though multimodal LLMs can combine vision with language.</td></tr>
+<tr><td>Speech model</td><td>Audio</td><td>Transcript, speaker info, or generated speech</td><td>&quot;Transcribe this meeting&quot;</td><td>Native input/output is audio, often paired with LLMs for reasoning over transcripts.</td></tr>
+<tr><td>LLM</td><td>Text/code/tokens plus context</td><td>Open-ended text, code, structured output, or tool-call request</td><td>&quot;Read this contract and draft risk questions&quot;</td><td>Flexible across tasks because many tasks can be expressed as language and symbols.</td></tr>
+</tbody></table></div>
+<p>Teaching summary:</p>
+<pre><code class="language-text">Classifier: choose label
+Regressor: estimate number
+Ranker: order options
+Vision/speech model: process a modality
+LLM: generate and transform language-like token sequences
+Agent: LLM inside a harness that can act</code></pre>
+<p>This is why LLMs feel unusually broad. They sit on top of the symbolic layer where humans already describe work: emails, contracts, tickets, code, logs, meetings, policies, specs, SQL, JSON, and playbooks.</p>
+<h3 id="harness-broad-definition"><a class="anchor" href="#harness-broad-definition">#</a>Harness: Broad Definition</h3>
+<p>Use this broad definition on the whiteboard:</p>
+<pre><code class="language-text">Harness = everything around the raw LLM that shapes behavior</code></pre>
+<p>That includes:</p>
+<ul>
+<li>context package</li>
+<li>system prompt / instruction hierarchy</li>
+<li>examples and rubrics</li>
+<li>reasoning or thinking-process design</li>
+<li>tool definitions and schemas</li>
+<li>memory and retrieval</li>
+<li>workspace permissions</li>
+<li>guardrails</li>
+<li>human approval gates</li>
+<li>tests, evals, and review protocols</li>
+<li>logs and audit trail</li>
+<li>UI / product constraints</li>
+</ul>
+<p>Critical point:</p>
+<blockquote>Guardrail is harness. Thinking-process design is harness. Tool permission is harness. Review protocol is harness.</blockquote>
+<p>This is why AI Builders should not only ask, &quot;Which model is bigger?&quot;</p>
+<p>They should ask:</p>
+<pre><code class="language-text">What harness makes this model reliably useful here?</code></pre>
+<h3 id="why-harness-engineering-changes-capability"><a class="anchor" href="#why-harness-engineering-changes-capability">#</a>Why Harness Engineering Changes Capability</h3>
+<p>Scaling improved raw model capability. But many real-world jumps now come from the system around the model:</p>
+<pre><code class="language-text">raw model scale
+  + context window
+  + tools
+  + reasoning process
+  + guardrails
+  + retrieval
+  + sandbox
+  + evals
+  + human review
+  = new practical capability border</code></pre>
+<p>This is not &quot;defeating&quot; scaling laws in the research sense. It means product capability can move beyond what raw parameter count alone would suggest.</p>
+<h3 id="public-scale-anchor-2022-vs-now"><a class="anchor" href="#public-scale-anchor-2022-vs-now">#</a>Public Scale Anchor: 2022 Vs Now</h3>
+<p>Use this carefully. Do not present rumored parameter counts as facts.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Era</th><th>Publicly verifiable facts</th><th>Teaching implication</th></tr></thead>
+<tbody>
+<tr><td>GPT-3 public scale anchor, still the cleanest 2022-era number</td><td>GPT-3 was reported as 175B parameters. The GPT-3 paper says all GPT-3 model sizes were trained for 300B tokens, with a 2,048-token context window.</td><td>The old public story was easy to explain as: scale improves in-context ability.</td></tr>
+<tr><td>ChatGPT / GPT-3.5 launch era</td><td>OpenAI said ChatGPT was fine-tuned from a model in the GPT-3.5 series, which finished training in early 2022. OpenAI did not publish exact ChatGPT/GPT-3.5 parameter count or training-token count.</td><td>Be precise: we can use GPT-3 as the public numerical anchor, not claim exact ChatGPT internals.</td></tr>
+<tr><td>Current proprietary GPT frontier</td><td>OpenAI&#x27;s current model docs expose product-facing facts such as context window, max output, tool support, price, latency, and knowledge cutoff. They do not expose parameter count or training-token count. The GPT-4 technical report explicitly withheld architecture, model size, hardware, training compute, dataset construction, and training method.</td><td>Teach modern capability as model + harness + tools + context + governance, not as parameter count alone.</td></tr>
+</tbody></table></div>
+<p>External references:</p>
+<ul>
+<li>GPT-3 paper: https://arxiv.org/abs/2005.14165</li>
+<li>Introducing ChatGPT: https://openai.com/index/chatgpt/</li>
+<li>GPT-4 technical report: https://arxiv.org/html/2303.08774v6</li>
+<li>OpenAI model docs: https://developers.openai.com/api/docs/models</li>
+<li>OpenAI function/tool calling docs: https://developers.openai.com/api/docs/guides/function-calling</li>
+<li>OpenAI guardrails and human review docs: https://developers.openai.com/api/docs/guides/agents/guardrails-approvals</li>
+</ul>
+<h3 id="draw-5"><a class="anchor" href="#draw-5">#</a>Draw</h3>
+<pre><code class="language-text">Raw LLM
+  = token model
+  = reads context and generates next tokens
+
+LLM Product
+  = LLM + product harness
+  = chat UI, files, memory, tools, safety, system prompts
+
+Agent
+  = LLM product or API model + task harness
+  = goal, tools, workspace, loop, permissions, checks, handoff</code></pre>
+<p>Then draw the stack:</p>
+<pre><code class="language-text">Goal / Intent
+    ↓
+Context Package
+    ↓
+LLM
+    ↓
+Tool Calling
+    ↓
+Observation / Feedback
+    ↓
+Next Action or Stop</code></pre>
+<h3 id="older-definition-of-agent"><a class="anchor" href="#older-definition-of-agent">#</a>Older Definition Of Agent</h3>
+<p>Older / simpler definition:</p>
+<blockquote>An agent is an LLM system that can call tools.</blockquote>
+<p>This was useful because tool calling separated agents from pure chatbots:</p>
+<pre><code class="language-text">Chatbot: answer in text
+Agent: choose an action, call a tool, observe result, continue</code></pre>
+<p>But this definition is now too small.</p>
+<p>Why:</p>
+<ul>
+<li>Tool calling alone does not make the system useful.</li>
+<li>A system can call tools badly.</li>
+<li>The real question is whether it has the right context, permissions, feedback, and stopping criteria.</li>
+</ul>
+<p>Updated definition:</p>
+<blockquote>An agent is a goal-directed AI system that can use tools through a harness, observe outcomes, and continue or stop based on feedback and constraints.</blockquote>
+<h3 id="tool-calling-tiny-pieces"><a class="anchor" href="#tool-calling-tiny-pieces">#</a>Tool Calling: Tiny Pieces</h3>
+<p>Tool calling means the model does not only produce prose. It can request an external operation.</p>
+<p>Basic loop:</p>
+<pre><code class="language-text">1. Model reads goal + context.
+2. Model chooses a tool.
+3. Harness validates whether tool use is allowed.
+4. Tool executes.
+5. Result returns as observation.
+6. Model decides next step.
+7. Loop continues until done / blocked / stopped.</code></pre>
+<h3 id="the-four-primitive-agent-tools"><a class="anchor" href="#the-four-primitive-agent-tools">#</a>The Four Primitive Agent Tools</h3>
+<p>The most basic tools are not search.</p>
+<p>The four primitive tools are:</p>
+<pre><code class="language-text">read
+write
+edit
+delete</code></pre>
+<p>Why these four matter:</p>
+<ul>
+<li>They define whether an agent can perceive and change a workspace.</li>
+<li>Search is usually a specialized form of read.</li>
+<li>Shell execution is usually a powerful composition of read/write/edit/delete plus process execution.</li>
+<li>API calls usually read or mutate external state.</li>
+</ul>
+<h3 id="explain-each-primitive"><a class="anchor" href="#explain-each-primitive">#</a>Explain Each Primitive</h3>
+<p><strong>Read</strong></p>
+<p>The agent can inspect state.</p>
+<p>Examples:</p>
+<ul>
+<li>read files</li>
+<li>read logs</li>
+<li>read database rows</li>
+<li>read web pages</li>
+<li>read API responses</li>
+<li>read previous decisions</li>
+</ul>
+<p>Risk:</p>
+<ul>
+<li>wrong source</li>
+<li>stale source</li>
+<li>incomplete source</li>
+<li>private data exposure</li>
+</ul>
+<p><strong>Write</strong></p>
+<p>The agent can create new state.</p>
+<p>Examples:</p>
+<ul>
+<li>create a file</li>
+<li>draft a report</li>
+<li>create a ticket</li>
+<li>generate a database record</li>
+<li>create a Google Doc</li>
+</ul>
+<p>Risk:</p>
+<ul>
+<li>creates noise</li>
+<li>creates misleading artifacts</li>
+<li>creates state people mistake as approved</li>
+</ul>
+<p><strong>Edit</strong></p>
+<p>The agent can modify existing state.</p>
+<p>Examples:</p>
+<ul>
+<li>patch code</li>
+<li>update a spreadsheet</li>
+<li>revise a document</li>
+<li>modify a config</li>
+<li>change a workflow rule</li>
+</ul>
+<p>Risk:</p>
+<ul>
+<li>silent regression</li>
+<li>loss of intent</li>
+<li>breaking downstream assumptions</li>
+</ul>
+<p><strong>Delete</strong></p>
+<p>The agent can remove state.</p>
+<p>Examples:</p>
+<ul>
+<li>delete files</li>
+<li>remove records</li>
+<li>close tickets</li>
+<li>revoke entries</li>
+<li>clean temporary outputs</li>
+</ul>
+<p>Risk:</p>
+<ul>
+<li>destructive action</li>
+<li>irreversible loss</li>
+<li>governance issue</li>
+</ul>
+<h3 id="tool-risk-ladder"><a class="anchor" href="#tool-risk-ladder">#</a>Tool Risk Ladder</h3>
+<p>Draw:</p>
+<pre><code class="language-text">read &lt; write &lt; edit &lt; delete
+low risk                high risk</code></pre>
+<p>Then add:</p>
+<pre><code class="language-text">local sandbox &lt; shared workspace &lt; production system &lt; regulated system</code></pre>
+<p>Key teaching point:</p>
+<blockquote>The same tool is safe or unsafe depending on where it acts.</blockquote>
+<p>Reading a local test file is low risk. Reading PHI, payroll, credentials, or private messages is high risk.</p>
+<p>Editing a local draft is low risk. Editing production config is high risk.</p>
+<p>Deleting a temp file is low risk. Deleting customer records is existential risk.</p>
+<h3 id="harness-responsibilities"><a class="anchor" href="#harness-responsibilities">#</a>Harness Responsibilities</h3>
+<p>The harness decides:</p>
+<ul>
+<li>What context does the model see?</li>
+<li>What thinking process or task decomposition should the model follow?</li>
+<li>What tools exist?</li>
+<li>Which tools require approval?</li>
+<li>What workspace can the agent touch?</li>
+<li>What memory persists?</li>
+<li>What guardrails validate input, output, or tool behavior?</li>
+<li>What output format is required?</li>
+<li>What counts as done?</li>
+<li>What tests or review gates run?</li>
+<li>When should the agent stop?</li>
+<li>What gets logged for audit?</li>
+</ul>
+<h3 id="whiteboard-summary"><a class="anchor" href="#whiteboard-summary">#</a>Whiteboard Summary</h3>
+<pre><code class="language-text">LLM = language/reasoning engine
+Tool = external action
+Harness = control environment around the raw model
+Agent = goal-directed loop using model + tools + harness</code></pre>
+<h3 id="ask-ma-3"><a class="anchor" href="#ask-ma-3">#</a>Ask MA</h3>
+<p>Pick one workflow and list:</p>
+<ul>
+<li>What can the agent read?</li>
+<li>What can it write?</li>
+<li>What can it edit?</li>
+<li>What can it delete?</li>
+<li>Which actions require approval?</li>
+<li>What observation tells it to stop?</li>
+</ul>
+<h3 id="source-anchors-5"><a class="anchor" href="#source-anchors-5">#</a>Source Anchors</h3>
+<ul>
+<li>Day 4: LLM + Tool Use = Agent; Prompt / Context / Harness / Human Harness</li>
+<li>Day 6: task granularity and handoff specs</li>
+<li>Day 20: sandbox runtime and permissions</li>
+<li>Day 24: auditable tool/system behavior</li>
+</ul>
+<hr>
+<div class="page-break"><span>page break</span></div>
+<h1 id="part-2-work-as-ai-builder-disruptor"><a class="anchor" href="#part-2-work-as-ai-builder-disruptor">#</a>Part 2 - Work As AI Builder / Disruptor</h1>
+<h2 id="6-five-knowledge-domains-of-an-ai-builder"><a class="anchor" href="#6-five-knowledge-domains-of-an-ai-builder">#</a>6. Five Knowledge Domains Of An AI Builder</h2>
+<h3 id="key-line-6"><a class="anchor" href="#key-line-6">#</a>Key Line</h3>
+<blockquote>An AI Builder does not need to be the deepest expert in all five domains, but must know enough of each to locate the AI capability border and deliver a trustworthy system.</blockquote>
+<h3 id="draw-as-pentagon"><a class="anchor" href="#draw-as-pentagon">#</a>Draw As Pentagon</h3>
+<pre><code class="language-text">                 Business Domain Knowledge
+                           /\
+                          /  \
+Governance &amp; Org Knowledge    AI System Design
+                          \  /
+                           \/
+        Cloud / Infrastructure Engineering
+                    Software Engineering</code></pre>
+<p>Cleaner board version:</p>
+<pre><code class="language-text">1. Business Domain Knowledge
+2. AI System Design
+3. Software Engineering
+4. Cloud / Infrastructure Engineering
+5. Governance &amp; Organizational Knowledge</code></pre>
+<h3 id="explain-5"><a class="anchor" href="#explain-5">#</a>Explain</h3>
+<ul>
+<li>AI Builders do not operate inside one discipline.</li>
+<li>Their work crosses from business reality into AI workflows, software artifacts, infrastructure, and organizational trust.</li>
+<li>The skill is not &quot;master everything.&quot;</li>
+<li>The skill is knowing which domain is currently constraining the work.</li>
+</ul>
+<h3 id="domain-notes"><a class="anchor" href="#domain-notes">#</a>Domain Notes</h3>
+<p><strong>Business Domain Knowledge</strong></p>
+<ul>
+<li>industry context</li>
+<li>user pain</li>
+<li>workflow reality</li>
+<li>product intent</li>
+<li>business model</li>
+<li>bottlenecks</li>
+<li>ROI</li>
+<li>prior art</li>
+<li>what &quot;good output&quot; means</li>
+</ul>
+<p><strong>AI System Design</strong></p>
+<ul>
+<li>model selection</li>
+<li>prompt / context / harness / loop engineering</li>
+<li>agent engineering</li>
+<li>RAG / retrieval</li>
+<li>evals</li>
+<li>human review</li>
+<li>token economics</li>
+<li>capability border mapping</li>
+</ul>
+<p><strong>Software Engineering</strong></p>
+<ul>
+<li>code structure</li>
+<li>APIs</li>
+<li>databases</li>
+<li>schemas</li>
+<li>testing</li>
+<li>debugging</li>
+<li>version control</li>
+<li>frontend / backend integration</li>
+<li>system design</li>
+<li>E2E behavior</li>
+</ul>
+<p><strong>Cloud / Infrastructure Engineering</strong></p>
+<ul>
+<li>cloud platforms</li>
+<li>deployment</li>
+<li>runtime environments</li>
+<li>sandboxing</li>
+<li>IAM / secrets</li>
+<li>network policy</li>
+<li>observability</li>
+<li>reliability</li>
+<li>scaling and cost</li>
+<li>production operations</li>
+</ul>
+<p><strong>Governance &amp; Organizational Knowledge</strong></p>
+<ul>
+<li>compliance</li>
+<li>privacy</li>
+<li>audit logs</li>
+<li>risk boundaries</li>
+<li>ownership</li>
+<li>stakeholder alignment</li>
+<li>change management</li>
+<li>documentation</li>
+<li>training</li>
+<li>escalation</li>
+<li>knowing when not to automate</li>
+</ul>
+<h3 id="highlight-2"><a class="anchor" href="#highlight-2">#</a>Highlight</h3>
+<blockquote>AI-native delivery fails when one domain is missing: no domain context, no product intent; no AI system design, no useful automation; no software engineering, no reliable artifact; no infrastructure, no production; no governance, no adoption.</blockquote>
+<hr>
+<h2 id="7-culture-of-ai-transformation"><a class="anchor" href="#7-culture-of-ai-transformation">#</a>7. Culture Of AI Transformation</h2>
+<h3 id="key-line-7"><a class="anchor" href="#key-line-7">#</a>Key Line</h3>
+<blockquote>AI transformation is not blocked by models first. It is blocked by trust, access, and organizational tolerance for iteration.</blockquote>
+<h3 id="draw-6"><a class="anchor" href="#draw-6">#</a>Draw</h3>
+<pre><code class="language-text">fast trial -&gt; fast mistake -&gt; fast correction -&gt; trust</code></pre>
+<h3 id="good-culture"><a class="anchor" href="#good-culture">#</a>Good Culture</h3>
+<ul>
+<li>grants access with boundaries</li>
+<li>trusts responsible operators</li>
+<li>supports quick setup</li>
+<li>lets people test real work</li>
+<li>accepts reversible mistakes</li>
+<li>rewards learning</li>
+</ul>
+<h3 id="bad-culture"><a class="anchor" href="#bad-culture">#</a>Bad Culture</h3>
+<ul>
+<li>no permissions</li>
+<li>no ownership</li>
+<li>unclear data access</li>
+<li>fear of mistakes</li>
+<li>demo obsession</li>
+<li>long decision chain</li>
+<li>tool adoption without workflow change</li>
+</ul>
+<h3 id="explain-6"><a class="anchor" href="#explain-6">#</a>Explain</h3>
+<ul>
+<li>AI transformation requires permission to touch real workflows.</li>
+<li>IT support, stakeholder access, and trust are part of the system.</li>
+<li>If every experiment requires a long approval chain, AI speed dies before production.</li>
+</ul>
+<h3 id="source-anchors-6"><a class="anchor" href="#source-anchors-6">#</a>Source Anchors</h3>
+<ul>
+<li>Day 16: organization tolerance for quick trial</li>
+<li>Day 25: value confirmation through live collaboration</li>
+<li>Day 33: slow governance cycles</li>
+</ul>
+<hr>
+<h2 id="8-automation-flywheel-theory-of-constraints"><a class="anchor" href="#8-automation-flywheel-theory-of-constraints">#</a>8. Automation Flywheel / Theory Of Constraints</h2>
+<h3 id="key-line-8"><a class="anchor" href="#key-line-8">#</a>Key Line</h3>
+<blockquote>AI adoption is not one workflow. It is bottleneck migration.</blockquote>
+<h3 id="draw-7"><a class="anchor" href="#draw-7">#</a>Draw</h3>
+<pre><code class="language-text">bottleneck A -&gt; automate -&gt; bottleneck B appears -&gt; automate -&gt; bottleneck C appears</code></pre>
+<h3 id="explain-7"><a class="anchor" href="#explain-7">#</a>Explain</h3>
+<ul>
+<li>When one node becomes fast, pressure moves downstream.</li>
+<li>The next bottleneck reveals the next product opportunity.</li>
+<li>Day 1 does not need the final full product shape.</li>
+<li>Start with one real repeated pain and watch where the pressure moves.</li>
+</ul>
+<h3 id="individual-productivity"><a class="anchor" href="#individual-productivity">#</a>Individual Productivity</h3>
+<ul>
+<li>automate one painful repeated task</li>
+<li>observe what becomes annoying next</li>
+<li>redesign the next step</li>
+<li>gradually build an end-to-end workflow</li>
+</ul>
+<h3 id="organization-transformation"><a class="anchor" href="#organization-transformation">#</a>Organization Transformation</h3>
+<ul>
+<li>start with one repeated pain</li>
+<li>improve one node</li>
+<li>watch what breaks next</li>
+<li>use the breakage to map the workflow</li>
+<li>do not pretend the whole system is obvious on Day 1</li>
+</ul>
+<h3 id="ask-ma-4"><a class="anchor" href="#ask-ma-4">#</a>Ask MA</h3>
+<p>Pick a workflow. Draw the current bottleneck. If we automate it, where does pressure move?</p>
+<h3 id="source-anchors-7"><a class="anchor" href="#source-anchors-7">#</a>Source Anchors</h3>
+<ul>
+<li>Day 14: forced emergence under deadline</li>
+<li>Day 15: Theory of Constraints and pressure transfer</li>
+</ul>
+<hr>
+<div class="page-break"><span>page break</span></div>
+<h2 id="9-product-intent-and-critical-taste"><a class="anchor" href="#9-product-intent-and-critical-taste">#</a>9. Product Intent And Critical Taste</h2>
+<h3 id="key-line-9"><a class="anchor" href="#key-line-9">#</a>Key Line</h3>
+<blockquote>AI speed makes bad intent more expensive.</blockquote>
+<h3 id="draw-8"><a class="anchor" href="#draw-8">#</a>Draw</h3>
+<pre><code class="language-text">Pain -&gt; Workflow -&gt; Decision / Action -&gt; Product Intent -&gt; First PoC</code></pre>
+<h3 id="mindset"><a class="anchor" href="#mindset">#</a>Mindset</h3>
+<ul>
+<li>To deliver is everything.</li>
+<li>Ambiguity is normal.</li>
+<li>Do not wait for perfect specs.</li>
+<li>Do not blindly generate.</li>
+<li>Product intent prevents AI speed from amplifying nonsense.</li>
+</ul>
+<h3 id="good-product-intent"><a class="anchor" href="#good-product-intent">#</a>Good Product Intent</h3>
+<ul>
+<li>names a real pain</li>
+<li>has an owner</li>
+<li>fits a real workflow</li>
+<li>creates a useful decision or action</li>
+<li>has a cheap first test</li>
+<li>has non-goals</li>
+<li>respects trust boundaries</li>
+<li>can survive contact with reality</li>
+</ul>
+<h3 id="bad-product-intent"><a class="anchor" href="#bad-product-intent">#</a>Bad Product Intent</h3>
+<ul>
+<li>&quot;AI can probably do this&quot;</li>
+<li>no owner</li>
+<li>no workflow</li>
+<li>no success criterion</li>
+<li>no failure mode</li>
+<li>no review protocol</li>
+<li>demo-first</li>
+<li>benchmark-first</li>
+<li>tool-first</li>
+</ul>
+<h3 id="best-exploration-questions"><a class="anchor" href="#best-exploration-questions">#</a>Best Exploration Questions</h3>
+<p>If unsure, do not ask &quot;what should we build?&quot;</p>
+<p>Ask:</p>
+<ul>
+<li>What pain is repeated?</li>
+<li>Who owns the pain?</li>
+<li>What decision or action is blocked?</li>
+<li>What data already exists?</li>
+<li>What can AI do safely today?</li>
+<li>What is the smallest test that would teach us something?</li>
+</ul>
+<h3 id="source-anchors-8"><a class="anchor" href="#source-anchors-8">#</a>Source Anchors</h3>
+<ul>
+<li>Day 19: product core intent</li>
+<li>Day 20: Day 1 path vs policy overload</li>
+<li>Day 23: PoC vs hospital deployment</li>
+<li>Day 34: deliberate slowdown to understand architecture</li>
+<li>Day 36: super beginner / FDE capability under instability</li>
+</ul>
+<hr>
+<h2 id="10-model-choice-and-token-economics"><a class="anchor" href="#10-model-choice-and-token-economics">#</a>10. Model Choice And Token Economics</h2>
+<h3 id="key-line-10"><a class="anchor" href="#key-line-10">#</a>Key Line</h3>
+<blockquote>The strongest model is not always the best system choice. Model choice is product design.</blockquote>
+<h3 id="draw-9"><a class="anchor" href="#draw-9">#</a>Draw</h3>
+<pre><code class="language-text">                  cheap model | strong model | multi-agent | code | human review
+difficulty
+volume
+cost of error
+verification cost
+latency
+data sensitivity
+concurrency
+reasoning need</code></pre>
+<h3 id="explain-8"><a class="anchor" href="#explain-8">#</a>Explain</h3>
+<ul>
+<li>Token economics are part of workflow architecture.</li>
+<li>Concurrency can destroy budget.</li>
+<li>Benchmark performance does not equal workflow fit.</li>
+<li>Sometimes cheap model plus verification is better than one expensive model.</li>
+<li>Sometimes deterministic code is better than AI.</li>
+</ul>
+<h3 id="thought-experiment"><a class="anchor" href="#thought-experiment">#</a>Thought Experiment</h3>
+<p>For one workshop task, ask:</p>
+<ul>
+<li>Do we use the strongest model?</li>
+<li>Do we use cheap model plus verification?</li>
+<li>Do we use deterministic code?</li>
+<li>Do we split the task between models?</li>
+<li>Do we require human review?</li>
+</ul>
+<h3 id="source-anchors-9"><a class="anchor" href="#source-anchors-9">#</a>Source Anchors</h3>
+<ul>
+<li>Day 21: expensive strong model misuse</li>
+<li>Day 22: E2E confusion and human frustration</li>
+</ul>
+<hr>
+<h2 id="11-auditable-reasoning"><a class="anchor" href="#11-auditable-reasoning">#</a>11. Auditable Reasoning</h2>
+<h3 id="key-line-11"><a class="anchor" href="#key-line-11">#</a>Key Line</h3>
+<blockquote>Trust comes from visible reasoning, source evidence, and verification steps.</blockquote>
+<h3 id="draw-10"><a class="anchor" href="#draw-10">#</a>Draw</h3>
+<pre><code class="language-text">source fact -&gt; interpretation -&gt; decision -&gt; action</code></pre>
+<h3 id="explain-9"><a class="anchor" href="#explain-9">#</a>Explain</h3>
+<ul>
+<li>AI-native work is not just faster output.</li>
+<li>It is making reasoning inspectable.</li>
+<li>Multi-agent review fails if every agent is asked the wrong question.</li>
+<li>A claim should be separable into source, interpretation, and decision.</li>
+</ul>
+<h3 id="ask-ma-5"><a class="anchor" href="#ask-ma-5">#</a>Ask MA</h3>
+<p>Take one claim and split it into:</p>
+<ul>
+<li>what the source says</li>
+<li>what we infer</li>
+<li>what decision we make</li>
+<li>what evidence would change our mind</li>
+</ul>
+<h3 id="source-anchors-10"><a class="anchor" href="#source-anchors-10">#</a>Source Anchors</h3>
+<ul>
+<li>Day 24: OpenShell network policy review</li>
+<li>Day 6: task verifiability</li>
+<li>Day 19: AI cannot decide whether the PR should exist</li>
+</ul>
+<hr>
+<h2 id="12-poc-vs-product-shape"><a class="anchor" href="#12-poc-vs-product-shape">#</a>12. PoC Vs Product Shape</h2>
+<h3 id="key-line-12"><a class="anchor" href="#key-line-12">#</a>Key Line</h3>
+<blockquote>A PoC proves possibility. A product proves fit inside reality.</blockquote>
+<h3 id="draw-11"><a class="anchor" href="#draw-11">#</a>Draw</h3>
+<pre><code class="language-text">PoC                         Product
+---                         -------
+model works                 workflow fit
+demo works                  owner
+one happy path              permissions
+local success               audit logs
+no full governance          data quality
+                            error handling
+                            monitoring
+                            rollback</code></pre>
+<h3 id="explain-10"><a class="anchor" href="#explain-10">#</a>Explain</h3>
+<ul>
+<li>A PoC proves the model can work.</li>
+<li>A product must survive permissions, governance, error handling, ownership, monitoring, and workflow fit.</li>
+<li>Do not confuse &quot;works once&quot; with &quot;can exist inside an organization.&quot;</li>
+</ul>
+<h3 id="source-anchors-11"><a class="anchor" href="#source-anchors-11">#</a>Source Anchors</h3>
+<ul>
+<li>Day 23: MRI workflow as engineering/governance manual</li>
+<li>Day 33: institutional lag and AI iteration speed</li>
+<li>Day 20: Day 1 dev path vs Day 2/3 hardening</li>
+</ul>
+<hr>
+<div class="page-break"><span>page break</span></div>
+<h1 id="workshop-guide"><a class="anchor" href="#workshop-guide">#</a>Workshop Guide</h1>
+<h2 id="workshop-premise"><a class="anchor" href="#workshop-premise">#</a>Workshop Premise</h2>
+<p>The workshop should not have a clear final answer.</p>
+<p>But it must have a clear method.</p>
+<p>Participants get:</p>
+<ul>
+<li>messy real-life situation</li>
+<li>available data</li>
+<li>available tools</li>
+<li>stakeholder constraints</li>
+<li>ambiguous goal</li>
+<li>time pressure</li>
+</ul>
+<h2 id="required-whiteboard-output"><a class="anchor" href="#required-whiteboard-output">#</a>Required Whiteboard Output</h2>
+<p>Each group should draw:</p>
+<ol>
+<li>Context map</li>
+<li>AI capability border</li>
+<li>Bottleneck map</li>
+<li>Product intent</li>
+<li>Task breakdown</li>
+<li>Model choice</li>
+<li>Verification points</li>
+<li>PoC shape</li>
+<li>Non-goals</li>
+</ol>
+<h2 id="final-statement-template"><a class="anchor" href="#final-statement-template">#</a>Final Statement Template</h2>
+<pre><code class="language-text">We believe the product intent is ____
+because pain ____ blocks decision/action ____.
+
+AI should do ____.
+Humans must own ____.
+The first PoC should test ____.
+We will not do ____ yet.</code></pre>
+<h2 id="workshop-case-options"><a class="anchor" href="#workshop-case-options">#</a>Workshop Case Options</h2>
+<h3 id="best-company-relevant-case-consumer-labeling"><a class="anchor" href="#best-company-relevant-case-consumer-labeling">#</a>Best Company-Relevant Case: Consumer Labeling</h3>
+<p>Use if the audience is company / business transformation.</p>
+<p>Why it fits:</p>
+<ul>
+<li>messy data</li>
+<li>unclear taxonomy</li>
+<li>business value</li>
+<li>explainability need</li>
+<li>AI-assisted labeling</li>
+<li>human review</li>
+<li>production-facing risk</li>
+</ul>
+<p>Prompts:</p>
+<ul>
+<li>Who uses the labels?</li>
+<li>What decision do labels support?</li>
+<li>What data exists?</li>
+<li>What does label confidence mean?</li>
+<li>What can AI infer safely?</li>
+<li>What must be reviewed?</li>
+<li>What do false positives cost?</li>
+<li>What does the first PoC test?</li>
+</ul>
+<h3 id="most-accessible-case-meeting-bot"><a class="anchor" href="#most-accessible-case-meeting-bot">#</a>Most Accessible Case: Meeting Bot</h3>
+<p>Use if the audience is mixed.</p>
+<p>Why it fits:</p>
+<ul>
+<li>everyone understands meetings</li>
+<li>transcript -&gt; decisions -&gt; action items -&gt; Google Doc</li>
+<li>easy verification</li>
+<li>clear human review boundary</li>
+</ul>
+<h3 id="most-technical-case-openshell-openab-onboarding"><a class="anchor" href="#most-technical-case-openshell-openab-onboarding">#</a>Most Technical Case: OpenShell / OpenAB Onboarding</h3>
+<p>Use if the audience is technical builders.</p>
+<p>Why it fits:</p>
+<ul>
+<li>Day 1 / Day 2 / Day 3 path is clear</li>
+<li>strong product intent and user journey example</li>
+<li>shows context vs engineering cleanly</li>
+</ul>
+<h3 id="high-stakes-example-mri-safety-workflow"><a class="anchor" href="#high-stakes-example-mri-safety-workflow">#</a>High-Stakes Example: MRI Safety Workflow</h3>
+<p>Use as lecture example unless audience is healthcare/governance.</p>
+<p>Why it fits:</p>
+<ul>
+<li>vivid PoC vs production distinction</li>
+<li>governance, PHI, audit logs, FHIR, clinical safety</li>
+</ul>
+<hr>
+<div class="page-break"><span>page break</span></div>
+<h1 id="instructor-prep-current-knowledge-gaps"><a class="anchor" href="#instructor-prep-current-knowledge-gaps">#</a>Instructor Prep - Current Knowledge Gaps</h1>
+<p>This section is for Shaun, not necessarily for direct lecture. Use it to close gaps before teaching.</p>
+<h2 id="gap-1-what-ci-cd-is"><a class="anchor" href="#gap-1-what-ci-cd-is">#</a>Gap 1: What CI/CD Is</h2>
+<h3 id="one-sentence-definition"><a class="anchor" href="#one-sentence-definition">#</a>One-Sentence Definition</h3>
+<blockquote>CI/CD is the practice of automatically checking, testing, building, and sometimes deploying software whenever code changes.</blockquote>
+<h3 id="break-the-acronym"><a class="anchor" href="#break-the-acronym">#</a>Break The Acronym</h3>
+<p><strong>CI = Continuous Integration</strong></p>
+<p>Goal:</p>
+<ul>
+<li>make sure new code can safely integrate with the existing codebase</li>
+</ul>
+<p>Usually runs:</p>
+<ul>
+<li>lint</li>
+<li>typecheck</li>
+<li>unit tests</li>
+<li>integration tests</li>
+<li>build</li>
+</ul>
+<p>Question CI answers:</p>
+<blockquote>Did this code change break the project?</blockquote>
+<p><strong>CD = Continuous Delivery / Continuous Deployment</strong></p>
+<p>Continuous Delivery:</p>
+<ul>
+<li>code is automatically prepared for release</li>
+<li>a human may still approve deployment</li>
+</ul>
+<p>Continuous Deployment:</p>
+<ul>
+<li>code is automatically deployed after passing checks</li>
+<li>no manual approval is required, or approval is minimal</li>
+</ul>
+<p>Question CD answers:</p>
+<blockquote>Can this code safely reach users or a production-like environment?</blockquote>
+<h3 id="whiteboard-version"><a class="anchor" href="#whiteboard-version">#</a>Whiteboard Version</h3>
+<pre><code class="language-text">code change
+   ↓
+CI checks: lint / typecheck / tests / build
+   ↓
+review
+   ↓
+CD: deploy to preview / staging / production</code></pre>
+<h3 id="why-ai-builders-need-it"><a class="anchor" href="#why-ai-builders-need-it">#</a>Why AI Builders Need It</h3>
+<p>AI agents can create lots of changes quickly. CI/CD is one of the main ways to prevent speed from becoming chaos.</p>
+<p>Key teaching line:</p>
+<blockquote>CI/CD is the automated immune system of a software project.</blockquote>
+<h3 id="minimum-understanding-to-teach"><a class="anchor" href="#minimum-understanding-to-teach">#</a>Minimum Understanding To Teach</h3>
+<p>You do not need to know every CI/CD tool.</p>
+<p>You need to understand:</p>
+<ul>
+<li>code changes must be checked</li>
+<li>checks should run automatically</li>
+<li>tests should block risky changes</li>
+<li>deployment should be repeatable</li>
+<li>CI/CD is part of the harness around AI coding</li>
+</ul>
+<hr>
+<h2 id="gap-2-relationship-between-ci-cd-and-github-actions"><a class="anchor" href="#gap-2-relationship-between-ci-cd-and-github-actions">#</a>Gap 2: Relationship Between CI/CD And GitHub Actions</h2>
+<h3 id="one-sentence-definition-2"><a class="anchor" href="#one-sentence-definition-2">#</a>One-Sentence Definition</h3>
+<blockquote>GitHub Actions is GitHub&#x27;s built-in automation system for running CI/CD workflows when repository events happen.</blockquote>
+<h3 id="relationship"><a class="anchor" href="#relationship">#</a>Relationship</h3>
+<pre><code class="language-text">CI/CD = practice / concept
+GitHub Actions = one tool that implements it</code></pre>
+<p>Other CI/CD tools exist:</p>
+<ul>
+<li>GitLab CI</li>
+<li>CircleCI</li>
+<li>Jenkins</li>
+<li>Buildkite</li>
+<li>Cloud Build</li>
+<li>Vercel / Netlify preview deploy systems</li>
+</ul>
+<h3 id="github-actions-mental-model"><a class="anchor" href="#github-actions-mental-model">#</a>GitHub Actions Mental Model</h3>
+<pre><code class="language-text">event -&gt; workflow -&gt; jobs -&gt; steps -&gt; commands</code></pre>
+<p>Definitions:</p>
+<ul>
+<li>event: something happens, such as push or pull request</li>
+<li>workflow: YAML file under <code>.github/workflows/</code></li>
+<li>job: a group of steps running on a machine</li>
+<li>step: one command or action</li>
+<li>runner: the machine executing the job</li>
+</ul>
+<h3 id="tiny-example"><a class="anchor" href="#tiny-example">#</a>Tiny Example</h3>
+<pre><code class="language-yaml">name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build</code></pre>
+<p>Explain this simply:</p>
+<blockquote>When someone opens a PR or pushes to main, GitHub rents a clean machine, checks out the code, installs dependencies, runs lint, runs tests, and tries to build.</blockquote>
+<h3 id="ai-builder-lens"><a class="anchor" href="#ai-builder-lens">#</a>AI Builder Lens</h3>
+<p>GitHub Actions lets an AI Builder create automatic review gates:</p>
+<ul>
+<li>&quot;Does this code build?&quot;</li>
+<li>&quot;Do tests pass?&quot;</li>
+<li>&quot;Did formatting break?&quot;</li>
+<li>&quot;Can we deploy a preview?&quot;</li>
+<li>&quot;Can a reviewer inspect the result?&quot;</li>
+</ul>
+<p>This turns AI coding from &quot;agent generated code&quot; into &quot;agent generated code that must survive a shared review process.&quot;</p>
+<hr>
+<h2 id="gap-3-how-to-perform-code-reviews-and-tests-in-a-web-environment"><a class="anchor" href="#gap-3-how-to-perform-code-reviews-and-tests-in-a-web-environment">#</a>Gap 3: How To Perform Code Reviews And Tests In A Web Environment</h2>
+<h3 id="one-sentence-definition-3"><a class="anchor" href="#one-sentence-definition-3">#</a>One-Sentence Definition</h3>
+<blockquote>Web code review means checking not only whether code looks correct, but whether the application actually behaves correctly in a browser.</blockquote>
+<h3 id="review-layers"><a class="anchor" href="#review-layers">#</a>Review Layers</h3>
+<p>Draw this stack:</p>
+<pre><code class="language-text">1. Diff review
+2. Static checks
+3. Unit tests
+4. Integration tests
+5. Build check
+6. Browser / E2E test
+7. Preview deployment review
+8. Production monitoring</code></pre>
+<h3 id="layer-1-diff-review"><a class="anchor" href="#layer-1-diff-review">#</a>Layer 1: Diff Review</h3>
+<p>Ask:</p>
+<ul>
+<li>What files changed?</li>
+<li>Is the change scoped?</li>
+<li>Does the code match the product intent?</li>
+<li>Are there risky side effects?</li>
+<li>Did the agent touch unrelated files?</li>
+</ul>
+<p>AI Builder question:</p>
+<blockquote>Should this PR exist?</blockquote>
+<p>Source anchor:</p>
+<ul>
+<li>Day 19: AI can check code, but humans must decide whether a PR should exist.</li>
+</ul>
+<h3 id="layer-2-static-checks"><a class="anchor" href="#layer-2-static-checks">#</a>Layer 2: Static Checks</h3>
+<p>Usually:</p>
+<ul>
+<li>formatter</li>
+<li>linter</li>
+<li>typechecker</li>
+</ul>
+<p>Examples:</p>
+<pre><code class="language-bash">npm run lint
+npm run typecheck</code></pre>
+<p>Purpose:</p>
+<ul>
+<li>catch obvious code quality and type errors before running the app</li>
+</ul>
+<h3 id="layer-3-unit-tests"><a class="anchor" href="#layer-3-unit-tests">#</a>Layer 3: Unit Tests</h3>
+<p>Unit tests check one small function/component in isolation.</p>
+<p>Example question:</p>
+<blockquote>Does this formatter function return the right label?</blockquote>
+<p>Command might be:</p>
+<pre><code class="language-bash">npm test</code></pre>
+<h3 id="layer-4-integration-tests"><a class="anchor" href="#layer-4-integration-tests">#</a>Layer 4: Integration Tests</h3>
+<p>Integration tests check whether multiple pieces work together.</p>
+<p>Example question:</p>
+<blockquote>Does the frontend correctly call the backend endpoint and render the returned data?</blockquote>
+<h3 id="layer-5-build-check"><a class="anchor" href="#layer-5-build-check">#</a>Layer 5: Build Check</h3>
+<p>Build check answers:</p>
+<blockquote>Can this app compile into something deployable?</blockquote>
+<p>Command might be:</p>
+<pre><code class="language-bash">npm run build</code></pre>
+<h3 id="layer-6-browser-e2e-testing"><a class="anchor" href="#layer-6-browser-e2e-testing">#</a>Layer 6: Browser / E2E Testing</h3>
+<p>E2E means end-to-end.</p>
+<p>It checks the app the way a user experiences it.</p>
+<p>Example questions:</p>
+<ul>
+<li>Can the user open the page?</li>
+<li>Can they click the button?</li>
+<li>Does the form submit?</li>
+<li>Does the table update?</li>
+<li>Does the UI break on mobile?</li>
+</ul>
+<p>Tool examples:</p>
+<ul>
+<li>Playwright</li>
+<li>Cypress</li>
+</ul>
+<p>Command might be:</p>
+<pre><code class="language-bash">npx playwright test</code></pre>
+<h3 id="layer-7-preview-deployment"><a class="anchor" href="#layer-7-preview-deployment">#</a>Layer 7: Preview Deployment</h3>
+<p>Preview deployment means:</p>
+<blockquote>Every PR gets a temporary live URL so reviewers can inspect the actual app.</blockquote>
+<p>Common in:</p>
+<ul>
+<li>Vercel</li>
+<li>Netlify</li>
+<li>Cloudflare Pages</li>
+<li>GitHub Pages workflows</li>
+<li>internal staging systems</li>
+</ul>
+<p>Review asks:</p>
+<ul>
+<li>Does it load?</li>
+<li>Does it look right?</li>
+<li>Does the flow work?</li>
+<li>Does it work on mobile?</li>
+<li>Are errors visible in console/logs?</li>
+</ul>
+<h3 id="layer-8-production-monitoring"><a class="anchor" href="#layer-8-production-monitoring">#</a>Layer 8: Production Monitoring</h3>
+<p>After deploy, ask:</p>
+<ul>
+<li>are users seeing errors?</li>
+<li>are logs clean?</li>
+<li>is latency acceptable?</li>
+<li>did conversion/workflow metrics change?</li>
+<li>did any integration fail?</li>
+</ul>
+<h3 id="minimal-web-review-checklist"><a class="anchor" href="#minimal-web-review-checklist">#</a>Minimal Web Review Checklist</h3>
+<p>Use this when reviewing AI-generated web changes:</p>
+<pre><code class="language-text">1. What was the product intent?
+2. What files changed?
+3. Did the agent change unrelated files?
+4. Do lint/type/build checks pass?
+5. Are there tests for the changed behavior?
+6. Did I open the app in a browser?
+7. Did I test the core user flow?
+8. Did I test mobile/responsive behavior if relevant?
+9. Did I inspect console/log errors?
+10. Is this safe to merge/deploy?</code></pre>
+<h3 id="ai-builder-lens-2"><a class="anchor" href="#ai-builder-lens-2">#</a>AI Builder Lens</h3>
+<p>Web review is where the abstract AI system touches human experience.</p>
+<p>Key teaching line:</p>
+<blockquote>Code review asks whether the code is sane. Browser review asks whether the user reality is sane.</blockquote>
+<hr>
+<div class="page-break"><span>page break</span></div>
+<h1 id="closing-page"><a class="anchor" href="#closing-page">#</a>Closing Page</h1>
+<h2 id="final-board-sentence"><a class="anchor" href="#final-board-sentence">#</a>Final Board Sentence</h2>
+<blockquote>AI Builders are not people who know every tool. They are people who can stand at the edge of unclear reality, find the missing context, draw the border of AI capability, and turn that border into a useful product or workflow.</blockquote>
+<h2 id="repeatable-method"><a class="anchor" href="#repeatable-method">#</a>Repeatable Method</h2>
+<pre><code class="language-text">1. Find context.
+2. Draw the border.
+3. Identify the bottleneck.
+4. Define product intent.
+5. Break work into AI tasks.
+6. Choose model/system design.
+7. Add verification.
+8. Test the first PoC.
+9. Decide what not to automate.</code></pre>
+<h2 id="do-not-forget"><a class="anchor" href="#do-not-forget">#</a>Do Not Forget</h2>
+<ul>
+<li>No slides.</li>
+<li>Make MAs draw.</li>
+<li>Keep returning to the border.</li>
+<li>Keep asking: &quot;What does AI do, what does human own, what should not be automated?&quot;</li>
+<li>Do not over-teach every source essay.</li>
+<li>The essays are the source reservoir. The board is the operating model.</li>
+</ul>
+    </main>
+  </div>
+</body>
+</html>
