@@ -474,7 +474,7 @@ formalizable domain</code></pre>
 <hr>
 <h2 id="5-llm-harness-tool-calling-agent"><a class="anchor" href="#5-llm-harness-tool-calling-agent">#</a>5. LLM, Harness, Tool Calling, Agent</h2>
 <h3 id="key-line-5"><a class="anchor" href="#key-line-5">#</a>Key Line</h3>
-<blockquote>An LLM is a stochastic token prediction system trained at scale. It is powerful because many human tasks can be represented as text, code, symbols, and examples. Everything that supports or changes the behavior of a raw LLM is a harness: context, tools, memory, permissions, feedback, guardrails, process design, and stop conditions. An agent is an LLM operating inside a harness toward a goal.</blockquote>
+<blockquote>An LLM is a probabilistic next-token model trained at scale. Its output becomes stochastic when the decoding or product layer samples from those probabilities. It is powerful because many human tasks can be represented as text, code, symbols, and examples. Everything that supports or changes the behavior of a raw LLM is a harness: context, tools, memory, permissions, feedback, guardrails, process design, and stop conditions. An agent is an LLM operating inside a harness toward a goal.</blockquote>
 <h3 id="why-this-section-matters"><a class="anchor" href="#why-this-section-matters">#</a>Why This Section Matters</h3>
 <p>We often say:</p>
 <pre><code class="language-text">Agent = LLM + Harness</code></pre>
@@ -493,7 +493,7 @@ formalizable domain</code></pre>
 same input + same state + same rules = same output
 
 Stochastic system:
-same input can produce different outputs because the system samples from probabilities</code></pre>
+same input can produce different outputs because the system samples from probabilities or uses randomness internally</code></pre>
 <p>Concrete deterministic examples:</p>
 <ul>
 <li>Calculator: <code>123 + 456 = 579</code> every time.</li>
@@ -504,17 +504,18 @@ same input can produce different outputs because the system samples from probabi
 </ul>
 <p>Concrete stochastic examples:</p>
 <ul>
-<li>LLM writing: same prompt can produce three different summaries.</li>
-<li>Image generation: same prompt can create different images.</li>
-<li>Recommender system: ranking may shift as sampling, user behavior, or model updates change.</li>
-<li>Ad bidding / ranking: output can vary because the system estimates probabilities under changing context.</li>
+<li>LLM generation with sampling: same prompt can produce three different summaries.</li>
+<li>Image generation without a fixed seed: same prompt can create different images.</li>
+<li>K-means training without fixed initialization: same data can lead to different centroids.</li>
+<li>Online recommender / ad system with exploration: the scoring model may be deterministic, but the product may intentionally sample, explore, or change ranking as context changes.</li>
 </ul>
 <p>Key teaching point:</p>
 <blockquote>Deterministic systems are easier to verify. Stochastic systems are more flexible, but need harness, tests, review, and audit.</blockquote>
 <p>Important nuance:</p>
 <ul>
-<li>Setting temperature near zero can make an LLM more repeatable.</li>
-<li>It does not turn the LLM into a normal deterministic rules engine.</li>
+<li>Greedy decoding or temperature near zero can make an LLM more repeatable.</li>
+<li>Sampling controls such as temperature and top-p affect how much randomness enters generation.</li>
+<li>This does not turn the LLM into a normal deterministic rules engine.</li>
 <li>Even when output is repeatable, the model is still producing tokens from learned probability structure, not executing a human-readable rulebook.</li>
 </ul>
 <h3 id="foundation-note-are-ml-models-deterministic"><a class="anchor" href="#foundation-note-are-ml-models-deterministic">#</a>Foundation Note: Are ML Models Deterministic?</h3>
@@ -525,7 +526,7 @@ same input can produce different outputs because the system samples from probabi
 often stochastic
 
 Model inference:
-often deterministic if weights + input + runtime + decoding rule are fixed
+often deterministic if weights + input + runtime + decoding rule + random seed / deterministic kernels are fixed
 
 Product/system output:
 may still be stochastic because of sampling, retrieval, tools, model routing, or changing context</code></pre>
@@ -536,29 +537,29 @@ may still be stochastic because of sampling, retrieval, tools, model routing, or
 <li>Neural network classifier: with dropout off and fixed weights, same image usually produces the same class probabilities.</li>
 <li>K-means: training may vary because random initialization can choose different clusters; after centroids are fixed, assignment is deterministic.</li>
 <li>Recommender system: the scoring model may be deterministic, but the product ranking can change because inventory, user behavior, exploration, and business rules change.</li>
-<li>LLM: with greedy decoding or very low temperature, output can be more repeatable; with sampling, the same prompt can produce different valid continuations.</li>
+<li>LLM: the forward pass can deterministically produce a next-token probability distribution under fixed conditions; with sampling, the same prompt can produce different valid continuations.</li>
 </ul>
 <p>Whiteboard correction:</p>
 <pre><code class="language-text">ML model != always stochastic
 ML system != always deterministic
 LLM = ML subtype with generative token prediction</code></pre>
 <p>Use this wording:</p>
-<blockquote>The model can be deterministic as a mathematical function, while the AI product can still be stochastic as a system.</blockquote>
+<blockquote>The model&#x27;s forward pass can be deterministic as a mathematical function, while the training process, decoding layer, and AI product can still be stochastic as a system.</blockquote>
 <p>Why this matters for AI Builders:</p>
 <ul>
 <li>If output must be exact, use deterministic rules, calculators, validators, tests, or database queries.</li>
 <li>If output can be drafted, interpreted, ranked, summarized, or explored, stochastic generation may be useful.</li>
-<li>Production AI often combines both: stochastic model output plus deterministic checks.</li>
+<li>Production AI often combines both: probabilistic or stochastic model output plus deterministic checks.</li>
 </ul>
 <h3 id="what-defines-an-llm"><a class="anchor" href="#what-defines-an-llm">#</a>What Defines An LLM</h3>
 <p>LLM means <strong>Large Language Model</strong>.</p>
 <p>Definition for the whiteboard:</p>
-<blockquote>A large neural network trained on massive text/code/token sequences to predict likely next tokens, then used through context to perform many language-representable tasks.</blockquote>
+<blockquote>A large neural network trained on massive text/code/token sequences to predict a probability distribution over likely next tokens, then used through context to perform many language-representable tasks.</blockquote>
 <p>What defines it:</p>
 <ul>
 <li>It operates on tokens, not directly on &quot;truth.&quot;</li>
 <li>It learns statistical structure from huge corpora.</li>
-<li>It generates one token after another.</li>
+<li>Common autoregressive LLMs generate one token after another.</li>
 <li>It can use context at inference time: instructions, examples, documents, prior messages, tool results.</li>
 <li>It is general-purpose because many tasks can be represented as language, code, schemas, or symbols.</li>
 </ul>
