@@ -510,7 +510,7 @@ same input can produce different outputs because the system samples from probabi
 <li>Online recommender / ad system with exploration: the scoring model may be deterministic, but the product may intentionally sample, explore, or change ranking as context changes.</li>
 </ul>
 <p>Key teaching point:</p>
-<blockquote>Deterministic systems are easier to verify. Stochastic systems can be more flexible, but need harness, tests, review, and audit.</blockquote>
+<blockquote>Deterministic systems are easier to reproduce. Stochastic systems need statistical, evaluation-based, and audit-based verification.</blockquote>
 <p>Important nuance:</p>
 <ul>
 <li>Greedy decoding or temperature near zero can make an LLM more repeatable.</li>
