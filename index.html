@@ -497,8 +497,8 @@ same input can produce different outputs because the system samples from probabi
 <p>Concrete deterministic examples:</p>
 <ul>
 <li>Calculator: <code>123 + 456 = 579</code> every time.</li>
-<li>SQL query: same query + same database state = same result.</li>
-<li>Sorting function: same list + same sort rule = same order.</li>
+<li>SQL query: same deterministic query + same database state = same result; visible ordering requires <code>ORDER BY</code>.</li>
+<li>Sorting function: same list + same sort rule + deterministic tie handling = same order.</li>
 <li>Rule engine: <code>if invoice &gt; 100000, require approval</code> always triggers under the same condition.</li>
 <li>Unit test: same code + same test environment should pass or fail the same way.</li>
 </ul>
@@ -510,7 +510,7 @@ same input can produce different outputs because the system samples from probabi
 <li>Online recommender / ad system with exploration: the scoring model may be deterministic, but the product may intentionally sample, explore, or change ranking as context changes.</li>
 </ul>
 <p>Key teaching point:</p>
-<blockquote>Deterministic systems are easier to verify. Stochastic systems are more flexible, but need harness, tests, review, and audit.</blockquote>
+<blockquote>Deterministic systems are easier to verify. Stochastic systems can be more flexible, but need harness, tests, review, and audit.</blockquote>
 <p>Important nuance:</p>
 <ul>
 <li>Greedy decoding or temperature near zero can make an LLM more repeatable.</li>
